@@ -24,43 +24,32 @@ object Main {
   /**
    * Exercise 2
    */
-    def findClosed(chars: List[Char]): Boolean = {
+    def balance(chars: List[Char], count: Int = 0, isBalanced: Boolean = true): Boolean = {
       if (chars.isEmpty) {
-        return false
+        count == 0 && isBalanced
+      } else {
+        val char = chars.head
+
+        if (char == '(') {
+          balance(chars.tail, count + 1, false)
+        } else if (char == ')') {
+          balance(chars.tail, count - 1, true)
+        } else {
+          balance(chars.tail, count, isBalanced)
+        }
       }
-      val char = chars.head
-
-      if (char == ')') {
-        return true == balance(chars.tail);
-      }
-
-      if (char == '(') {
-        return false == balance(chars.tail)
-      }
-
-      findClosed(chars.tail)
-    }
-
-    def balance(chars: List[Char]): Boolean = {
-      if (chars.isEmpty) {
-        return true
-      }
-
-      val char = chars.head
-
-      if (char == '(') {
-        return true == findClosed(chars.tail)
-      }
-
-      if (char == ')') {
-        return false
-      }
-
-      balance(chars.tail)
     }
   
   /**
    * Exercise 3
    */
-    def countChange(money: Int, coins: List[Int]): Int = ???
+    def countChange(money: Int, coins: List[Int]): Int = {
+      if (coins.isEmpty || money < 0) {
+        0
+      } else if (money == 0) {
+        1
+      } else {
+        countChange(money - coins.head, coins) + countChange(money, coins.tail)
+      }
+    }
   }
